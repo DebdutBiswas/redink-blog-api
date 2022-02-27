@@ -88,9 +88,11 @@ let sendNotifyMail = async (sendMailObj) => {
 // Dummy async email send delay simulation in debug
 if (process.env.NODE_ENV === 'debug') {
     sendNotifyMail = async (sendMailObj) => {
+        let sendMailResult = {...sendMailObj, sent: true};
         // Huge loop simulating time required to send email
         for (let i = 0; i <= 1000000000; i++);
-        return {...sendMailObj, sent: true};
+        console.log(sendMailResult);
+        return sendMailResult;
     }
 }
 
