@@ -7,9 +7,10 @@
 const { Op } = require('sequelize');
 const db = require('../configs/database');
 const { checkDateFormat, getISOTimeStamp, getISODate } = require('../utils/timelib');
+const { sendNotifyMail } = require('../utils/notifylib');
 const initModels = require('../models/initModels');
 
-const { postsModel } = initModels(db);
+const { postsModel, usersModel } = initModels(db);
 
 exports.getAllPosts = async (req, res) => {
     await postsModel.findAll({order: [['creation_date', 'DESC']]})
@@ -30,7 +31,7 @@ exports.getAllPosts = async (req, res) => {
 };
 
 exports.addNewPost = async (req, res) => {
-    const current_timestamp = getISOTimeStamp();
+    const currentTimestamp = getISOTimeStamp();
 
     const {
         author_id,
@@ -42,8 +43,8 @@ exports.addNewPost = async (req, res) => {
         author_id: req.body?.author_id ?? req.body.author_id ? req.body.author_id : '',
         title: req.body?.title ?? req.body.title ? req.body.title?.trim?.() : '',
         description: req.body?.description ?? req.body.description ? req.body.description?.trim?.() : '',
-        creation_date: checkDateFormat(req.body?.creation_date?.trim?.() ?? '') ? getISODate(req.body.creation_date.trim?.()) : current_timestamp,
-        last_updated: checkDateFormat(req.body?.creation_date?.trim?.() ?? '') ? getISODate(req.body.creation_date.trim?.()) : current_timestamp,
+        creation_date: checkDateFormat(req.body?.creation_date?.trim?.() ?? '') ? getISODate(req.body.creation_date.trim?.()) : currentTimestamp,
+        last_updated: checkDateFormat(req.body?.creation_date?.trim?.() ?? '') ? getISODate(req.body.creation_date.trim?.()) : currentTimestamp,
     };
 
     if (!author_id || !title) {
@@ -61,8 +62,38 @@ exports.addNewPost = async (req, res) => {
     }, { fields: ['author_id', 'title', 'description', 'creation_date', 'last_updated'] })
     .then(async queryResult => {
         await postsModel.findOne({where: {id: queryResult.id}})
-        .then(post => {
-            if (post !== null) res.send({'data': post});
+        .then(async post => {
+            if (post !== null) {
+                await usersModel.findAll({where: {id: {[Op.ne]: post.dataValues.author_id}, role: 3}, attributes: ['id', 'name', 'email'], order: [['id', 'ASC']]})
+                .then(async users => {
+                    if (users === null || users.length === 0) {
+                        res.send({
+                            data: {...post.dataValues},
+                            message: 'Mail not sent to others, only the author of the added post exist!'
+                        });
+                    } else {
+                        res.send({'data': post});
+
+                        for (const currentUser of users) {
+                            const mailParams = {
+                                receipent: currentUser.dataValues.email,
+                                subject: `${post.dataValues.title} - Post Added`,
+                                bodyTxt: `Checkout new post!\nPost Link: https://blog.redink.app/blogs/${post.dataValues.id}`,
+                                bodyHtml: `<b>Checkout new post!</b><a href="https://blog.redink.app/blogs/${post.dataValues.id}">${post.dataValues.title}<a>`
+                            };
+
+                            const currentNotifyResult = await sendNotifyMail(mailParams);
+                            ((process.env.NODE_ENV === 'development') || (process.env.NODE_ENV === 'debug')) ? console.log(currentNotifyResult) : '';
+                        }
+                    }
+                })
+                .catch(err => {
+                    res.send({
+                        data: {...post.dataValues},
+                        message: err.message || 'Something went wrong while getting details of other authors!'
+                    });
+                });
+            }
             else {
                 res.status(500).send({
                     message: 'The post does not exist!'
@@ -125,9 +156,38 @@ exports.updatePostById = async (req, res) => {
     .then(async queryResult => {
         [ updateResult ] = queryResult;
         await postsModel.findOne({where: {id: req.params.id}})
-        .then(post => {
-            if (post !== null) res.send({'data': {...post.dataValues, 'updated': updateResult}});
-            else {
+        .then(async post => {
+            if (post !== null) {
+                await usersModel.findAll({where: {id: {[Op.ne]: post.dataValues.author_id}, role: 3}, attributes: ['id', 'name', 'email'], order: [['id', 'ASC']]})
+                .then(async users => {
+                    if (users === null || users.length === 0) {
+                        res.send({
+                            data: {...post.dataValues, 'updated': updateResult},
+                            message: 'Mail not sent to others, only the author of the updated post exist!'
+                        });
+                    } else {
+                        res.send({'data': {...post.dataValues, 'updated': updateResult}});
+
+                        for (const currentUser of users) {
+                            const mailParams = {
+                                receipent: currentUser.dataValues.email,
+                                subject: `${post.dataValues.title} - Post Updated`,
+                                bodyTxt: `Checkout updated post!\nPost Link: https://blog.redink.app/blogs/${post.dataValues.id}`,
+                                bodyHtml: `<b>Checkout updated post!</b><a href="https://blog.redink.app/blogs/${post.dataValues.id}">${post.dataValues.title}<a>`
+                            };
+
+                            const currentNotifyResult = await sendNotifyMail(mailParams);
+                            ((process.env.NODE_ENV === 'development') || (process.env.NODE_ENV === 'debug')) ? console.log(currentNotifyResult) : '';
+                        }
+                    }
+                })
+                .catch(err => {
+                    res.send({
+                        data: {...post.dataValues, 'updated': updateResult},
+                        message: err.message || 'Something went wrong while getting details of other authors!'
+                    });
+                });
+            } else {
                 res.status(500).send({
                     message: 'The post does not exist!'
                 });
