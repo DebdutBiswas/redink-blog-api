@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+
+  redinkblogapi:
+    image: redink-blog-api
+    environment:
+      - DB_HOST=redinkblogdb
+      - DB_PORT=3306
+      - DB_USER=redinkblog
+      - DB_PASS=redinkblog@12345
+      - DB_DBASE=redinkblog
+      - JWT_ACCESS_TOKEN_SECRET=rANd0m34673
+      - JWT_REFRESH_TOKEN_SECRET=RanD0M65749
+    build:
+      context: .
+      dockerfile: redink-blog-api.Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "redinkblogdb"
+    restart: "on-failure"
+    volumes:
+      - redinkblogapi-data:/home/node/app
+
+  redinkblogdb:
+    image: mysql:8.0.27
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password --init-file /docker-entrypoint-initdb.d/dummy.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root@12345
+      - MYSQL_DATABASE=redinkblog
+      - MYSQL_USER=redinkblog
+      - MYSQL_PASSWORD=redinkblog@12345
+    ports:
+      - "3306:3306"
+    restart: "on-failure"
+    volumes:
+      - redinkblogdb-data:/var/lib/mysql
+      - ./schemas/dummy.sql:/docker-entrypoint-initdb.d/dummy.sql
+
+volumes:
+  redinkblogdb-data:
+  redinkblogapi-data:
