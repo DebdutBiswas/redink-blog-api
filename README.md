@@ -38,8 +38,13 @@ To be added later via heroku docker deploy
   DB_USER=<user_name>
   DB_PASS=<database_password>
   DB_DBASE=<database_name>
-  JWT_ACCESS_TOKEN_SECRET=rANd0m34673
-  JWT_REFRESH_TOKEN_SECRET=RanD0M65749
+  MAIL_HOST=<mail_server_smtp_host>
+  MAIL_SENDER_ADDRESS=<mail_address>
+  MAIL_SENDER_NAME=<mail_sender_display_name>
+  MAIL_USER=<mail_address>
+  MAIL_PASS=<mail_password>
+  JWT_ACCESS_TOKEN_SECRET=<access_secret_key>
+  JWT_REFRESH_TOKEN_SECRET=<refresh_secret_key>
 ```
 
 ## How to run the code?
