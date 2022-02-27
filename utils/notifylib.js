@@ -1,55 +1,89 @@
 const { createTransport } = require('nodemailer');
-const { mailHost, mailSenderAddress, mailSenderName, mailUser, mailPassword } = require('../configs/mail');
+const {
+    mailHost,
+    mailPort,
+    mailSenderAddress,
+    mailSenderName,
+    mailUser,
+    mailPassword,
+    mailIsSecure,
+    mailIsStartTLS,
+    mailIsStrictTLS
+} = require('../configs/mail');
 
 let sendNotifyMail = async (sendMailObj) => {
-    const mailAuthObj = {
-        server: mailHost,
-        sender: mailSenderAddress,
-        senderName: mailSenderName,
-        user: mailUser,
-        pass: mailPassword
+    let mailAuthObj = {
+        host: mailHost,
+        port: mailPort,
+        auth: {
+            type: 'login',
+            user: mailUser,
+            pass: mailPassword
+        },
+        authMethod: 'PLAIN'
     };
+
+    if (mailIsSecure) {
+        if (mailIsStartTLS) {
+            mailAuthObj = {
+                ...mailAuthObj,
+                secure: false,
+                requireTLS: true
+            };
+        } else {
+            mailAuthObj = {
+                ...mailAuthObj,
+                secure: true
+            };
+        }
+
+        if (mailIsStrictTLS) {
+            mailAuthObj = {
+                ...mailAuthObj,
+                tls: {
+                    servername: mailHost,
+                    rejectUnauthorized: true
+                }
+            };
+        } else {
+            mailAuthObj = {
+                ...mailAuthObj,
+                tls: {
+                    servername: mailHost,
+                    rejectUnauthorized: false
+                }
+            };
+        }
+    } else {
+        mailAuthObj = {
+            ...mailAuthObj,
+            secure: false,
+            ignoreTLS: true
+        };
+    }
+
     let sendMailResult = {};
 
     let propsEmpty = false;
     let propsNull = false;
 
     const sendMailPropsArr = ['receipent', 'subject', 'bodyTxt', 'bodyHtml'];
-    const mailAuthPropsArr = ['server', 'sender', 'senderName', 'user', 'pass'];
 
     sendMailPropsArr.forEach((key) => {
         propsEmpty = !(key in sendMailObj);
     });
-    mailAuthPropsArr.forEach((key) => {
-        propsEmpty = !(key in mailAuthObj);
-    });
 
-    propsNull = !Object.values(sendMailObj).every((key) => key !== null) || !Object.values(mailAuthObj).every((key) => key !== null);
+    propsNull = !Object.values(sendMailObj).every((key) => key !== null);
 
     if (sendMailObj !== null) {
         if (!(propsEmpty && propsNull)) {
             // create reusable transporter object using the default SMTP transport
-            let transporter = createTransport({
-                host: `${mailAuthObj.server}`,
-                port: 465,
-                secure: true,
-                tls: {
-                    servername: `${mailAuthObj.server}`,
-                    rejectUnauthorized: true
-                },
-                requireTLS: true,
-                auth: {
-                    type: 'login',
-                    user: `${mailAuthObj.user}`,
-                    pass: `${mailAuthObj.pass}`
-                },
-                authMethod: 'PLAIN'
-            });
+            let transporter = createTransport(mailAuthObj);
 
             try {
                 // send mail with defined transport object
                 let info = await transporter.sendMail({
-                    from: `"${mailAuthObj.senderName}" <${mailAuthObj.sender}>`,
+                    from: `"${mailSenderName}" <${mailSenderAddress}>`,
                     to: `${sendMailObj.receipent}`,
                     subject: `${sendMailObj.subject}`,
                     text: `${sendMailObj.bodyTxt}`,
