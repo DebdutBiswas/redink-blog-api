@@ -7,7 +7,7 @@ let sendNotifyMail = async (sendMailObj) => {
         sender: mailSenderAddress,
         senderName: mailSenderName,
         user: mailUser,
-        pass: mailPassword,
+        pass: mailPassword
     };
     let sendMailResult = {};
 
@@ -35,15 +35,15 @@ let sendNotifyMail = async (sendMailObj) => {
                 secure: true,
                 tls: {
                     servername: `${mailAuthObj.server}`,
-                    rejectUnauthorized: true,
+                    rejectUnauthorized: true
                 },
                 requireTLS: true,
                 auth: {
                     type: 'login',
                     user: `${mailAuthObj.user}`,
-                    pass: `${mailAuthObj.pass}`,
+                    pass: `${mailAuthObj.pass}`
                 },
-                authMethod: 'PLAIN',
+                authMethod: 'PLAIN'
             });
 
             try {
@@ -53,7 +53,7 @@ let sendNotifyMail = async (sendMailObj) => {
                     to: `${sendMailObj.receipent}`,
                     subject: `${sendMailObj.subject}`,
                     text: `${sendMailObj.bodyTxt}`,
-                    html: `${sendMailObj.bodyHtml}`,
+                    html: `${sendMailObj.bodyHtml}`
                 });
 
                 if ('messageId' in info) {
@@ -62,6 +62,7 @@ let sendNotifyMail = async (sendMailObj) => {
                         statusCode: '250',
                         mailSent: true,
                         messageId: await info.messageId,
+                        mailDetails: sendMailObj
                     };
                 }
             } catch (err) {
@@ -69,6 +70,8 @@ let sendNotifyMail = async (sendMailObj) => {
                     msg: err.message || 'Mail not sent!',
                     statusCode: '550',
                     mailSent: false,
+                    messageId: null,
+                    mailDetails: sendMailObj
                 };
             }
         }
@@ -79,6 +82,8 @@ let sendNotifyMail = async (sendMailObj) => {
             msg: 'Mail not sent!',
             statusCode: '550',
             mailSent: false,
+            messageId: null,
+            mailDetails: sendMailObj
         };
     }
     process.env.NODE_ENV === 'development' ? console.log(sendMailResult) : '';
@@ -88,7 +93,13 @@ let sendNotifyMail = async (sendMailObj) => {
 // Dummy async email send delay simulation in debug
 if (process.env.NODE_ENV === 'debug') {
     sendNotifyMail = async (sendMailObj) => {
-        let sendMailResult = {...sendMailObj, sent: true};
+        const sendMailResult = {
+            msg: 'Mail sent successfully!',
+            statusCode: '250',
+            mailSent: true,
+            messageId: 'debug_mode',
+            mailDetails: sendMailObj
+        };
         // Huge loop simulating time required to send email
         for (let i = 0; i <= 1000000000; i++);
         console.log(sendMailResult);
