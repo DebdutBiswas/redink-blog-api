@@ -6,7 +6,7 @@ To be added later via heroku docker deploy
 
 ## Easiest way to setup and run if you have docker installed:
 ```bash
-  docker compose up -d
+  docker-compose up -d
 ```
 
 ## Manual setup:
@@ -32,17 +32,27 @@ To be added later via heroku docker deploy
 ```
 - Put the following contents to the file and save it
 ```bash
+  # Database server connection details
   DB_HOST=localhost
   DB_PORT=3306
   DB_TYPE=mysql
   DB_USER=<user_name>
   DB_PASS=<database_password>
   DB_DBASE=<database_name>
+
+  # Mail server connection details
   MAIL_HOST=<mail_server_smtp_host>
+  MAIL_PORT=25
   MAIL_SENDER_ADDRESS=<mail_address>
   MAIL_SENDER_NAME=<mail_sender_display_name>
   MAIL_USER=<mail_address>
   MAIL_PASS=<mail_password>
+  # Mail server connection optional TLS details (0 = false, 1 = true)
+  MAIL_SECURE=0
+  MAIL_START_TLS=0
+  MAIL_STRICT_TLS=0
+
+  # JWT secrets
   JWT_ACCESS_TOKEN_SECRET=<access_secret_key>
   JWT_REFRESH_TOKEN_SECRET=<refresh_secret_key>
 ```
