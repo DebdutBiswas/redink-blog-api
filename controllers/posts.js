@@ -83,7 +83,6 @@ exports.addNewPost = async (req, res) => {
                             };
 
                             const currentNotifyResult = await sendNotifyMail(mailParams);
-                            ((process.env.NODE_ENV === 'development') || (process.env.NODE_ENV === 'debug')) ? console.log(currentNotifyResult) : '';
                         }
                     }
                 })
@@ -177,7 +176,6 @@ exports.updatePostById = async (req, res) => {
                             };
 
                             const currentNotifyResult = await sendNotifyMail(mailParams);
-                            ((process.env.NODE_ENV === 'development') || (process.env.NODE_ENV === 'debug')) ? console.log(currentNotifyResult) : '';
                         }
                     }
                 })
