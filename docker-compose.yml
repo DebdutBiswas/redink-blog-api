@@ -10,6 +10,15 @@ services:
       - DB_USER=redinkblog
       - DB_PASS=redinkblog@12345
       - DB_DBASE=redinkblog
+      - MAIL_HOST=localhost
+      - MAIL_PORT=1025
+      - MAIL_SENDER_ADDRESS=dummyblogalerts@localhost
+      - MAIL_SENDER_NAME="Dummy Blog Alerts"
+      - MAIL_USER=dummyblogalerts@localhost
+      - MAIL_PASS=abc@123_mail
+      - MAIL_SECURE=0
+      - MAIL_START_TLS=0
+      - MAIL_STRICT_TLS=0
       - JWT_ACCESS_TOKEN_SECRET=rANd0m34673
       - JWT_REFRESH_TOKEN_SECRET=RanD0M65749
     build:
@@ -19,6 +28,7 @@ services:
       - "3000:3000"
     depends_on:
       - "redinkblogdb"
+      - "redinkmailhog"
     restart: "on-failure"
     volumes:
       - redinkblogapi-data:/home/node/app
@@ -38,6 +48,19 @@ services:
       - redinkblogdb-data:/var/lib/mysql
       - ./schemas/dummy.sql:/docker-entrypoint-initdb.d/dummy.sql
 
+  redinkmailhog:
+    image: mailhog/mailhog:v1.0.1
+    environment:
+      - MH_HOSTNAME=localhost
+      - MH_STORAGE=maildir
+    restart: "on-failure"
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    volumes:
+      - redinkmailhog-data:/maildir
+
 volumes:
-  redinkblogdb-data:
   redinkblogapi-data:
+  redinkblogdb-data:
+  redinkmailhog-data:
