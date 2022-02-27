@@ -86,6 +86,15 @@ To be added later via heroku docker deploy
 }
 ```
 
+### Test email notification functionality
+- Open MailHog from any web browser: **[http://localhost:8025](http://localhost:8025 "MailHog at localhost")**
+- Add a new post or update an existing post from postman collection
+- Watch Mailhog dashboard already opened up on the browser
+
+Now you will receive email notifications like below
+
+![MailHogDashboard](/assets/images/MailHogDashboard.png)
+
 ## Database Schema Design:
 Here is a relationship diagram of various database tables:
 
