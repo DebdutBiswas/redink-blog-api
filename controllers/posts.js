@@ -30,6 +30,8 @@ exports.getAllPosts = async (req, res) => {
 };
 
 exports.addNewPost = async (req, res) => {
+    const current_timestamp = getISOTimeStamp();
+
     const {
         author_id,
         title,
@@ -40,8 +42,8 @@ exports.addNewPost = async (req, res) => {
         author_id: req.body?.author_id ?? req.body.author_id ? req.body.author_id : '',
         title: req.body?.title ?? req.body.title ? req.body.title?.trim?.() : '',
         description: req.body?.description ?? req.body.description ? req.body.description?.trim?.() : '',
-        creation_date: checkDateFormat(req.body?.creation_date?.trim?.() ?? '') ? getISODate(req.body.creation_date.trim?.()) : getISOTimeStamp(),
-        last_updated: creation_date
+        creation_date: checkDateFormat(req.body?.creation_date?.trim?.() ?? '') ? getISODate(req.body.creation_date.trim?.()) : current_timestamp,
+        last_updated: checkDateFormat(req.body?.creation_date?.trim?.() ?? '') ? getISODate(req.body.creation_date.trim?.()) : current_timestamp,
     };
 
     if (!author_id || !title) {
@@ -81,7 +83,7 @@ exports.addNewPost = async (req, res) => {
 };
 
 exports.getPostsByAuthorId = async (req, res) => {
-    await postsModel.findAll({where: {author_id: req.params.authorid}, order: [['creation_date', 'DESC']]})
+    await postsModel.findAll({where: {author_id: req.params.authorid}, attributes: {exclude: ['author_id']}, order: [['creation_date', 'DESC']]})
     .then(posts => {
         if (posts === null || posts.length === 0) {
             res.status(500).send({
