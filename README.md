@@ -15,7 +15,7 @@ To be added later via heroku docker deploy
   npm install
 ```
 
-### Databse setup
+### Database setup
 #### Create database user and database
 - Create a new database user set mysql authentication type to 'Native MySQL authentication'
 - Create a new database and give all permissions to the previously created user
@@ -24,7 +24,11 @@ To be added later via heroku docker deploy
   mysql -u <user_name> -p <database_name> < ./schemas/dummy.sql
 ```
 
-### Setup environment variables
+### Test mail server setup
+> **Plaease follow the guide: [https://kinsta.com/blog/mailhog/](https://kinsta.com/blog/mailhog/ "How to Use MailHog to Test Emails Locally (Step-by-Step Guide)")**
+
+
+### Environment variables setup
 - Create a file named .env and edit it
 ```bash
   touch .env
@@ -47,9 +51,13 @@ To be added later via heroku docker deploy
   MAIL_SENDER_NAME=<mail_sender_display_name>
   MAIL_USER=<mail_address>
   MAIL_PASS=<mail_password>
+
   # Mail server connection optional TLS details (0 = false, 1 = true)
+  # Enables or Disables TLS support (default: disabled)
   MAIL_SECURE=0
+  # Enables or Disables START_TLS mode (default: disabled)
   MAIL_START_TLS=0
+  # Enables or Disables self signed or invalid certificates (default: disabled)
   MAIL_STRICT_TLS=0
 
   # JWT secrets
