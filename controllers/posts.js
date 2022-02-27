@@ -79,7 +79,7 @@ exports.addNewPost = async (req, res) => {
                                 receipent: currentUser.dataValues.email,
                                 subject: `${post.dataValues.title} - Post Added`,
                                 bodyTxt: `Checkout new post!\nPost Link: https://blog.redink.app/blogs/${post.dataValues.id}`,
-                                bodyHtml: `<b>Checkout new post!</b>\n<a href="https://blog.redink.app/blogs/${post.dataValues.id}">${post.dataValues.title}<a>`
+                                bodyHtml: `<b>Checkout new post!</b><br /><a href="https://blog.redink.app/blogs/${post.dataValues.id}">${post.dataValues.title}<a>`
                             };
 
                             const currentNotifyResult = await sendNotifyMail(mailParams);
@@ -172,7 +172,7 @@ exports.updatePostById = async (req, res) => {
                                 receipent: currentUser.dataValues.email,
                                 subject: `${post.dataValues.title} - Post Updated`,
                                 bodyTxt: `Checkout updated post!\nPost Link: https://blog.redink.app/blogs/${post.dataValues.id}`,
-                                bodyHtml: `<b>Checkout updated post!</b>\n<a href="https://blog.redink.app/blogs/${post.dataValues.id}">${post.dataValues.title}<a>`
+                                bodyHtml: `<b>Checkout updated post!</b><br /><a href="https://blog.redink.app/blogs/${post.dataValues.id}">${post.dataValues.title}<a>`
                             };
 
                             const currentNotifyResult = await sendNotifyMail(mailParams);
