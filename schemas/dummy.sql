@@ -62,20 +62,20 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `name`, `email`, `active`, `role`, `reg_by`, `reg_date`) VALUES
-(1, 'admin', '$2a$10$8AgpMkRZeqF9i7nRufwa7.UJlCRI1VkUsrKt/OEWFFLh5Gy53D0um', 'Super Admin', 'redinkblogadmin@localhost', 1, 1, 1, '2022-02-26 20:13:51'),
+(1, 'admin', '$2a$10$8AgpMkRZeqF9i7nRufwa7.UJlCRI1VkUsrKt/OEWFFLh5Gy53D0um', 'Super Admin', 'redinkblogadmin@redinkmailhog', 1, 1, 1, '2022-02-26 20:13:51'),
 (2, 'debdut', '$2a$10$iVsMppi6ENO5ERP6CBdemOh9R7KS447/zDDh3jkdQyxbsLkEUeKTS', 'Debdut', 'debdut@outlook.in', 1, 2, 1, '2022-02-26 20:15:43'),
-(3, 'anubhav', '$2a$10$KHff.O7LN3Uprj4V7ebAAuyjnWo5egGdFzi7BuQIfPy2yWYy6BgYe', 'Anubhav Singh Bassi', 'anubhav.redinkbloguser@localhost', 1, 3, 2, '2022-02-26 20:22:31'),
-(4, 'abhishek', '$2a$10$ok17F6.oJKni3kF1zLfKWOxuvMWcobzr0GNLXBfhTeun/QW2v2TM2', 'Abhishek Upmanyu', 'abhishek.redinkbloguser@localhost', 1, 3, 2, '2022-02-26 20:23:22'),
-(5, 'abish', '$2a$10$vyjUNqJsW0xaZKFn/cObV.B5BK0NJmLq8/.nt.WeBuVka/YC.P23q', 'Abish Mathew', 'abish.redinkbloguser@localhost', 1, 3, 2, '2022-02-26 20:24:52'),
-(6, 'aditi', '$2a$10$5EJxlQd3vykzjKX.W8HRCOO4o/K3U8uBP8.C10x77iZZjMGkEwuYG', 'Aditi Mittal', 'aditi.redinkbloguser@localhost', 1, 3, 2, '2022-02-26 20:26:03'),
-(7, 'appurv', '$2a$10$tBDn8.PivUc/HpgPz41JAu4rYPL40./H4a/h7L2VH8BK4SJgcaTdS', 'Appurv Gupta', 'appurv.redinkbloguser@localhost', 1, 3, 2, '2022-02-26 20:27:25'),
-(8, 'atul', '$2a$10$Z1a89Hn1xUDf.fa6bm7u0OXqdtZrBLaaSZcpLLydFudu4HetPK/vm', 'Atul Khatri', 'atul.redinkbloguser@localhost', 1, 3, 2, '2022-02-26 20:28:16'),
-(9, 'biswa', '$2a$10$DM25SskR/avKfH2Ozq0kV.c.X0QjfJWHtE5HgGQ0KYyYkQ0S0QKmW', 'Biswa Kalyan Rath', 'biswa.redinkbloguser@localhost', 1, 3, 2, '2022-02-26 20:29:12'),
-(10, 'rahul', '$2a$10$D75wg9TA6Tkw/eLZ9kF.Gu8H4upkwI1qxwaJ7F9PEOTQyCL5ElMyq', 'Rahul Subramanian', 'rahul.redinkbloguser@localhost', 1, 3, 2, '2022-02-26 20:30:49'),
-(11, 'sorabh', '$2a$10$uenclE4oowfCHqmg3P0E8.OZRXFKcR8ZK6kYvgFrPwnzCjZ1EuTWW', 'Sorabh Pant', 'sorabh.redinkbloguser@localhost', 1, 3, 2, '2022-02-26 20:32:06'),
-(12, 'vir', '$2a$10$KHOSsQY9meLkiTtqdqMI8u786r96MSsYoIXSdGo9IEKm1pn2o3KVq', 'Vir Das', 'vir.redinkbloguser@localhost', 1, 3, 2, '2022-02-26 20:33:17'),
-(13, 'zakir', '$2a$10$9Y3qOJKDthG7EmG61TpQveUX7LYto4Z6W.FyZk9VOk4J/J2etKd02', 'Zakir Khan', 'zakir.redinkbloguser@localhost', 1, 3, 2, '2022-02-26 20:34:30'),
-(14, 'sudhama', '$2a$10$uKGZQ7o1wcDVjTmsOyjmKuxlJbjeboWWdCzfxQiAzaqRbVhwRYjn.', 'Sudhama Paul', 'sudhama.redinkbloguser@localhost', 1, 3, 1, '2022-02-27 06:23:30');
+(3, 'anubhav', '$2a$10$KHff.O7LN3Uprj4V7ebAAuyjnWo5egGdFzi7BuQIfPy2yWYy6BgYe', 'Anubhav Singh Bassi', 'anubhav.redinkbloguser@redinkmailhog', 1, 3, 2, '2022-02-26 20:22:31'),
+(4, 'abhishek', '$2a$10$ok17F6.oJKni3kF1zLfKWOxuvMWcobzr0GNLXBfhTeun/QW2v2TM2', 'Abhishek Upmanyu', 'abhishek.redinkbloguser@redinkmailhog', 1, 3, 2, '2022-02-26 20:23:22'),
+(5, 'abish', '$2a$10$vyjUNqJsW0xaZKFn/cObV.B5BK0NJmLq8/.nt.WeBuVka/YC.P23q', 'Abish Mathew', 'abish.redinkbloguser@redinkmailhog', 1, 3, 2, '2022-02-26 20:24:52'),
+(6, 'aditi', '$2a$10$5EJxlQd3vykzjKX.W8HRCOO4o/K3U8uBP8.C10x77iZZjMGkEwuYG', 'Aditi Mittal', 'aditi.redinkbloguser@redinkmailhog', 1, 3, 2, '2022-02-26 20:26:03'),
+(7, 'appurv', '$2a$10$tBDn8.PivUc/HpgPz41JAu4rYPL40./H4a/h7L2VH8BK4SJgcaTdS', 'Appurv Gupta', 'appurv.redinkbloguser@redinkmailhog', 1, 3, 2, '2022-02-26 20:27:25'),
+(8, 'atul', '$2a$10$Z1a89Hn1xUDf.fa6bm7u0OXqdtZrBLaaSZcpLLydFudu4HetPK/vm', 'Atul Khatri', 'atul.redinkbloguser@redinkmailhog', 1, 3, 2, '2022-02-26 20:28:16'),
+(9, 'biswa', '$2a$10$DM25SskR/avKfH2Ozq0kV.c.X0QjfJWHtE5HgGQ0KYyYkQ0S0QKmW', 'Biswa Kalyan Rath', 'biswa.redinkbloguser@redinkmailhog', 1, 3, 2, '2022-02-26 20:29:12'),
+(10, 'rahul', '$2a$10$D75wg9TA6Tkw/eLZ9kF.Gu8H4upkwI1qxwaJ7F9PEOTQyCL5ElMyq', 'Rahul Subramanian', 'rahul.redinkbloguser@redinkmailhog', 1, 3, 2, '2022-02-26 20:30:49'),
+(11, 'sorabh', '$2a$10$uenclE4oowfCHqmg3P0E8.OZRXFKcR8ZK6kYvgFrPwnzCjZ1EuTWW', 'Sorabh Pant', 'sorabh.redinkbloguser@redinkmailhog', 1, 3, 2, '2022-02-26 20:32:06'),
+(12, 'vir', '$2a$10$KHOSsQY9meLkiTtqdqMI8u786r96MSsYoIXSdGo9IEKm1pn2o3KVq', 'Vir Das', 'vir.redinkbloguser@redinkmailhog', 1, 3, 2, '2022-02-26 20:33:17'),
+(13, 'zakir', '$2a$10$9Y3qOJKDthG7EmG61TpQveUX7LYto4Z6W.FyZk9VOk4J/J2etKd02', 'Zakir Khan', 'zakir.redinkbloguser@redinkmailhog', 1, 3, 2, '2022-02-26 20:34:30'),
+(14, 'sudhama', '$2a$10$uKGZQ7o1wcDVjTmsOyjmKuxlJbjeboWWdCzfxQiAzaqRbVhwRYjn.', 'Sudhama Paul', 'sudhama.redinkbloguser@redinkmailhog', 1, 3, 1, '2022-02-27 06:23:30');
 
 --
 -- Indexes for dumped tables
