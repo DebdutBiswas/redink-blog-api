@@ -10,11 +10,11 @@ services:
       - DB_USER=redinkblog
       - DB_PASS=redinkblog@12345
       - DB_DBASE=redinkblog
-      - MAIL_HOST=localhost
+      - MAIL_HOST=redinkmailhog
       - MAIL_PORT=1025
-      - MAIL_SENDER_ADDRESS=dummyblogalerts@localhost
+      - MAIL_SENDER_ADDRESS=dummyblogalerts@redinkmailhog
       - MAIL_SENDER_NAME="Dummy Blog Alerts"
-      - MAIL_USER=dummyblogalerts@localhost
+      - MAIL_USER=dummyblogalerts@redinkmailhog
       - MAIL_PASS=abc@123_mail
       - MAIL_SECURE=0
       - MAIL_START_TLS=0
@@ -51,7 +51,7 @@ services:
   redinkmailhog:
     image: mailhog/mailhog:v1.0.1
     environment:
-      - MH_HOSTNAME=localhost
+      - MH_HOSTNAME=redinkmailhog
       - MH_STORAGE=maildir
     restart: "on-failure"
     ports:
